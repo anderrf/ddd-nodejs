@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest run",
+    "test:watch" : "vitest"
   },
   "repository": {
     "type": "git",
@@ -18,7 +19,14 @@
   },
   "homepage": "https://github.com/anderrf/ddd-nodejs#readme",
   "devDependencies": {
+    "@rocketseat/eslint-config": "^2.1.0",
     "@types/node": "^20.10.3",
-    "typescript": "^5.3.2"
+    "eslint": "^8.55.0",
+    "typescript": "^5.3.2",
+    "vite-tsconfig-paths": "^4.2.1",
+    "vitest": "^1.0.1"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.10"
   }
 }
