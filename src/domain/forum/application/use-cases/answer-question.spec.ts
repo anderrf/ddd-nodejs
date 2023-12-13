@@ -1,15 +1,18 @@
-import { Answer } from '../../enterprise/entities/answer'
-import { AnswersRepository } from '../repositories/answers-repository'
+import { InMemoryAnswersRepository } from './../../../../../test/repositories/in-memory-answers-repository'
+import { describe, it, beforeEach } from 'vitest'
 import { AnswerQuestionUseCase } from './answer-question'
 
-describe('Answer Question', () => {
+let inMemoryAnswersRepository: InMemoryAnswersRepository
+let sut: AnswerQuestionUseCase
+
+describe('Answer Question Use Case', () => {
+  beforeEach(() => {
+    inMemoryAnswersRepository = new InMemoryAnswersRepository()
+    sut = new AnswerQuestionUseCase(inMemoryAnswersRepository)
+  })
+
   it('should be able to create an answer', async () => {
-    const fakeAnswersRepository: AnswersRepository = {
-      create: async (answer: Answer) =>
-        new Promise<void>((resolve) => resolve()),
-    }
-    const answerQuestion = new AnswerQuestionUseCase(fakeAnswersRepository)
-    const answer = await answerQuestion.execute({
+    const answer = await sut.execute({
       questionId: '1',
       instructorId: '1',
       content: 'Nova Resposta',
