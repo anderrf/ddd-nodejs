@@ -16,7 +16,6 @@ describe('Answer Question Use Case', () => {
       questionId: '1',
       instructorId: '1',
       content: 'Nova Resposta',
-      title: 'Nova Resposta',
     })
     expect(answer.content).toEqual('Nova Resposta')
   })
