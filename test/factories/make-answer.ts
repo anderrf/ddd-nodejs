@@ -1,5 +1,4 @@
 import { UniqueEntityId } from '../../src/core/entities/unique-entity-id'
-import { Slug } from '../../src/domain/forum/enterprise/entities/value-objects/slug'
 import {
   Answer,
   AnswerProps,

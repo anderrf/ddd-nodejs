@@ -6,7 +6,6 @@ interface AnswerQuestionUseCaseRequest {
   instructorId: string
   questionId: string
   content: string
-  title: string
 }
 
 export class AnswerQuestionUseCase {
@@ -16,7 +15,6 @@ export class AnswerQuestionUseCase {
     instructorId,
     questionId,
     content,
-    title,
   }: AnswerQuestionUseCaseRequest) {
     const answer = Answer.create({
       authorId: new UniqueEntityId(instructorId),

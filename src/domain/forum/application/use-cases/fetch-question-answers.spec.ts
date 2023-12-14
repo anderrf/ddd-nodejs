@@ -1,6 +1,6 @@
 import { makeAnswer } from 'test/factories/make-answer'
 import { describe, it, beforeEach, expect } from 'vitest'
-import { FetchQuestionAnswersUseCase } from './fetch-questions-answers'
+import { FetchQuestionAnswersUseCase } from './fetch-question-answers'
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
 import { makeQuestion } from 'test/factories/make-question'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
