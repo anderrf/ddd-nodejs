@@ -24,11 +24,12 @@ describe('Fetch Answer Answers Use Case', () => {
     await inMemoryAnswersRepository.create(
       makeAnswer({ questionId: new UniqueEntityId('question-1') }),
     )
-    const { answers } = await sut.execute({
+    const result = await sut.execute({
       page: 1,
       questionId: 'question-1',
     })
-    expect(answers).toHaveLength(2)
+    expect(result.isRight()).toBe(true)
+    expect(result.value?.answers).toHaveLength(2)
   })
 
   it('should be able to fetch paginated question answers', async () => {
@@ -38,10 +39,11 @@ describe('Fetch Answer Answers Use Case', () => {
         makeAnswer({ questionId: question.id }),
       )
     }
-    const { answers } = await sut.execute({
+    const result = await sut.execute({
       page: 2,
       questionId: question.id.toString(),
     })
-    expect(answers).toHaveLength(2)
+    expect(result.isRight()).toBe(true)
+    expect(result.value?.answers).toHaveLength(2)
   })
 })

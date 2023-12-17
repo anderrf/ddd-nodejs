@@ -3,6 +3,7 @@ import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-r
 import { makeAnswer } from 'test/factories/make-answer'
 import { DeleteAnswerCommentUseCase } from './delete-answer-comment'
 import { makeAnswerComment } from 'test/factories/make-answer-comment'
+import { NotAllowedError } from './errors/not-allowed-error'
 
 let inMemoryAnswersRepository: InMemoryAnswersRepository
 let inMemoryAnswerCommentsRepository: InMemoryAnswerCommentsRepository
@@ -23,10 +24,11 @@ describe('Delete Answer Comment Use Case', () => {
     await inMemoryAnswersRepository.create(answer)
     const answerComment = makeAnswerComment({ authorId: answer.authorId })
     await inMemoryAnswerCommentsRepository.create(answerComment)
-    await sut.execute({
+    const result = await sut.execute({
       authorId: answer.authorId.toString(),
       answerCommentId: answerComment.id.toString(),
     })
+    expect(result.isRight()).toBe(true)
     expect(inMemoryAnswerCommentsRepository.items).toHaveLength(0)
   })
 
@@ -35,11 +37,11 @@ describe('Delete Answer Comment Use Case', () => {
     await inMemoryAnswersRepository.create(answer)
     const answerComment = makeAnswerComment()
     await inMemoryAnswerCommentsRepository.create(answerComment)
-    await expect(() =>
-      sut.execute({
-        authorId: 'author-2',
-        answerCommentId: answerComment.id.toString(),
-      }),
-    ).rejects.toBeInstanceOf(Error)
+    const result = await sut.execute({
+      authorId: 'author-2',
+      answerCommentId: answerComment.id.toString(),
+    })
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(NotAllowedError)
   })
 })
