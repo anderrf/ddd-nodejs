@@ -3,6 +3,7 @@ import { makeQuestion } from 'test/factories/make-question'
 import { describe, it, beforeEach } from 'vitest'
 import { EditQuestionUseCase } from './edit-question'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
+import { NotAllowedError } from './errors/not-allowed-error'
 
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
 let sut: EditQuestionUseCase
@@ -19,12 +20,13 @@ describe('Edit Question Use Case', () => {
       new UniqueEntityId('question-1'),
     )
     await inMemoryQuestionsRepository.create(newQuestion)
-    await sut.execute({
+    const result = await sut.execute({
       authorId: 'author-1',
       questionId: 'question-1',
       title: 'Updated title',
       content: 'Updated new content',
     })
+    expect(result.isRight()).toBe(true)
     expect(inMemoryQuestionsRepository.items[0].title).toEqual('Updated title')
   })
 
@@ -35,13 +37,13 @@ describe('Edit Question Use Case', () => {
     )
     await inMemoryQuestionsRepository.create(newQuestion)
 
-    await expect(() => {
-      return sut.execute({
-        authorId: 'author-2',
-        questionId: 'question-1',
-        title: 'Updated title',
-        content: 'Updated new content',
-      })
-    }).rejects.toBeInstanceOf(Error)
+    const result = await sut.execute({
+      authorId: 'author-2',
+      questionId: 'question-1',
+      title: 'Updated title',
+      content: 'Updated new content',
+    })
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(NotAllowedError)
   })
 })
