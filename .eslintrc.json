@@ -7,7 +7,8 @@
         "no-useless-constructor": "off",
         "no-empty-function": "off",
         "no-useless-return": "warn",
-        "@typescript-eslint/no-empty-interface": "off"
+        "@typescript-eslint/no-empty-interface": "off",
+        "no-new": "off"
     },
     "env": {
         "vitest-globals/env": true
